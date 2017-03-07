@@ -47,8 +47,8 @@ public class MavenToGradleMapperImpl implements MavenToGradleMapper {
                 extraOptions, optional);
     }
 
-    private HashMap<String, String> createExtraOptions(MavenDependency mavenDependency) {
-        HashMap<String, String> extraOptions = new HashMap<String, String>();
+    private Map<String, String> createExtraOptions(MavenDependency mavenDependency) {
+        Map<String, String> extraOptions = new HashMap<String, String>();
         if (mavenDependency.getSystemPath() != null) {
             extraOptions.put(SYSTEM_PATH, mavenDependency.getSystemPath());
         }

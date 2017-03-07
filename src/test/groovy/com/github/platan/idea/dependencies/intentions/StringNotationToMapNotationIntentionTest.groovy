@@ -20,6 +20,33 @@ class StringNotationToMapNotationIntentionTest extends IntentionTestBase {
 }''')
     }
 
+    void test_convert_string_notation_with_caret_before_configuration_name() {
+        doTextTest('''dependencies {
+    <caret>compile 'com.google.guava:guava:18.0'
+}''',
+                '''dependencies {
+    compile group: 'com.google.guava', name: 'guava', version: '18.0'
+}''')
+    }
+
+    void test_convert_string_notation_with_caret_in_configuration_name() {
+        doTextTest('''dependencies {
+    com<caret>pile 'com.google.guava:guava:18.0'
+}''',
+                '''dependencies {
+    compile group: 'com.google.guava', name: 'guava', version: '18.0'
+}''')
+    }
+
+    void test_convert_string_notation_with_caret_after_configuration_name() {
+        doTextTest('''dependencies {
+    compile<caret> 'com.google.guava:guava:18.0'
+}''',
+                '''dependencies {
+    compile group: 'com.google.guava', name: 'guava', version: '18.0'
+}''')
+    }
+
     void test_convert_optional_dependency() {
         doTextTest('''dependencies {
     compile 'com.google.<caret>guava:guava:18.0', optional

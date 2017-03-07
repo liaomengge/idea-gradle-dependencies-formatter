@@ -92,6 +92,24 @@ class MapNotationToStringNotationIntentionTest extends IntentionTestBase {
 }''')
     }
 
+    void test_convert_map_notation_with_caret_before_comma() {
+        doTextTest('''dependencies {
+    compile group: 'com.google.guava'<caret>, name: 'guava', version: '18.0'
+}''',
+                '''dependencies {
+    compile 'com.google.guava:guava:18.0'
+}''')
+    }
+
+    void test_convert_map_notation_with_caret_after_comma() {
+        doTextTest('''dependencies {
+    compile group: 'com.google.guava',<caret> name: 'guava', version: '18.0'
+}''',
+                '''dependencies {
+    compile 'com.google.guava:guava:18.0'
+}''')
+    }
+
     void test_convert_map_notation_with_caret_before_group() {
         doTextTest('''dependencies {
     compile <caret>group: 'com.google.guava', name: 'guava', version: '18.0'
@@ -101,9 +119,30 @@ class MapNotationToStringNotationIntentionTest extends IntentionTestBase {
 }''')
     }
 
-    void test_intention_not_applicable_to_map_notation_and_caret_after_configuration() {
-        doAntiTest('''dependencies {
+    void test_convert_map_notation_with_caret_after_configuration_name() {
+        doTextTest('''dependencies {
     compile<caret> group: 'com.google.guava', name: 'guava', version: '18.0'
+}''',
+                '''dependencies {
+    compile 'com.google.guava:guava:18.0'
+}''')
+    }
+
+    void test_convert_map_notation_with_caret_in_configuration_name() {
+        doTextTest('''dependencies {
+    comp<caret>ile group: 'com.google.guava', name: 'guava', version: '18.0'
+}''',
+                '''dependencies {
+    compile 'com.google.guava:guava:18.0'
+}''')
+    }
+
+    void test_convert_map_notation_with_caret_before_configuration_name() {
+        doTextTest('''dependencies {
+    <caret>compile group: 'com.google.guava', name: 'guava', version: '18.0'
+}''',
+                '''dependencies {
+    compile 'com.google.guava:guava:18.0'
 }''')
     }
 
