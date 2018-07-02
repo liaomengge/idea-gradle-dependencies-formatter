@@ -119,18 +119,19 @@ sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
 }
 
-compileJava {
-    options.compilerArgs += ["--add-modules", "java.xml.bind"]
-}
+if (JavaVersion.current().isJava10Compatible()) {
+    compileJava {
+        options.compilerArgs += ["--add-modules", "java.xml.bind"]
+    }
 
-compileTestJava {
-    options.compilerArgs += ["--add-modules", "java.xml.bind"]
-}
+    compileTestJava {
+        options.compilerArgs += ["--add-modules", "java.xml.bind"]
+    }
 
-test {
-    jvmArgs += ["--add-modules", "java.xml.bind"]
+    test {
+        jvmArgs += ["--add-modules", "java.xml.bind"]
+    }
 }
-
 task wrapper(type: Wrapper) {
     gradleVersion = '4.8.1'
 }
