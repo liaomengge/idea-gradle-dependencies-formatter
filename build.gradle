@@ -16,7 +16,7 @@ plugins {
     id 'idea'
     id 'checkstyle'
     id 'codenarc'
-    id 'me.champeau.gradle.jmh' version '0.2.0'
+//    id 'me.champeau.gradle.jmh' version '0.2.0'
     id 'org.jetbrains.intellij' version '0.3.4'
     id 'net.saliman.cobertura' version '2.4.0'
 }
@@ -82,6 +82,8 @@ dependencies {
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
+//    compile 'com.intellij:annotations:12.0'
+    compile group: 'org.jetbrains', name: 'annotations', version: '13.0'
     testCompile("org.spockframework:spock-core:${spockVersion()}") {
         exclude module: 'groovy-all'
     }
@@ -91,11 +93,11 @@ configurations {
     all*.exclude group: 'org.gmetrics', module: 'GMetrics'
 }
 
-idea {
-    module {
-        scopes.TEST.plus += [configurations.jmh]
-    }
-}
+//idea {
+//    module {
+//        scopes.TEST.plus += [configurations.jmh]
+//    }
+//}
 
 codenarc {
     configFile = file("${project.rootDir}/config/codenarc/rules.groovy")
@@ -116,6 +118,20 @@ test {
 sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
 }
+
+compileJava {
+    options.compilerArgs += ["--add-modules", "java.xml.bind"]
+}
+
+compileTestJava {
+    options.compilerArgs += ["--add-modules", "java.xml.bind"]
+}
+
+test {
+    jvmArgs += ["--add-modules", "java.xml.bind"]
+}
+
+instrumentCode.enabled = false
 
 task wrapper(type: Wrapper) {
     gradleVersion = '4.8.1'
