@@ -8,16 +8,27 @@ import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.actionSystem.EditorActionManager;
+import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 import com.intellij.util.Producer;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.plugins.groovy.GroovyFileType;
 
 import java.awt.Component;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 
 public class MavenToGradleDependenciesCopyPasteProcessorTest extends LightPlatformCodeInsightFixtureTestCase {
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        WriteCommandAction.runWriteCommandAction(this.getProject(), () -> {
+            FileTypeManager fileTypeManager = FileTypeManager.getInstance();
+            fileTypeManager.associateExtension(GroovyFileType.GROOVY_FILE_TYPE, "gradle");
+        });
+    }
 
     public void test__convert_maven_to_gradle_while_pasting_to_build_gradle() {
         myFixture.configureByText("build.gradle", "<caret>");
