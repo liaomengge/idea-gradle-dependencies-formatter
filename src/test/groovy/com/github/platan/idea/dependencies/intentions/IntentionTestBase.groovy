@@ -1,6 +1,7 @@
 package com.github.platan.idea.dependencies.intentions
 
 import com.intellij.codeInsight.intention.IntentionAction
+import com.intellij.openapi.util.registry.Registry
 import com.intellij.psi.impl.source.PostprocessReformattingAspect
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
 
@@ -11,6 +12,7 @@ abstract class IntentionTestBase extends LightCodeInsightFixtureTestCase {
     IntentionTestBase(String intentionName) {
         assert intentionName != null
         this.intention = intentionName
+        Registry.get("ide.check.structural.psi.text.consistency.in.tests").setValue(false)
     }
 
     protected void doTextTest(String given, String expected) {
